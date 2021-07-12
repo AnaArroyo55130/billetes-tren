@@ -1,0 +1,464 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<windows.h>
+#include "SerialClass/SerialClass.h"
+
+#define MAX_DATA_LENGTH 255
+
+void presentacion(void);
+
+int HoraAleatoria1(int min, int max);
+int HoraAleatoria2(int min, int max);
+int HoraAleatoria3(int min, int max);
+int HoraAleatoria4(int min, int max);
+
+void datospersonales(struct DATOS* d, int pas);
+
+float calcular(float preciof);
+void imprime(float preciof);
+
+void TarjetaCredito();
+
+int autoConnect(SerialPort*, char*);
+
+struct DATOS
+{
+char a[2];
+char nombre[40];
+char apellido1[40];
+char apellido2[40];
+int DNI[8];
+int tlf[9];
+};
+
+int main()
+{
+int opc1, opc2;
+int d1, d2, m1, m2, pas, k, l, n = 0;
+float preciob, preciov, precios, preciog, preciof = 0;
+int i1, numeros1[1], numero1, repetido1, j1;
+int i2, numeros2[1], numero2, repetido2, j2;
+int i3, numeros3[1], numero3, repetido3, j3;
+int i4, numeros4[1], numero4, repetido4, j4;
+int* v, dim, i;
+char destinoB[40] = "Barcelona", destinoV[40] = "Valencia", destinoS[40] = "Sevilla", destinoG[40] = "Galicia";
+struct DATOS d;
+int ard,;
+SerialPort* arduino;
+char portName[] = "\\\\.\\COM3";
+char incomingData[MAX_DATA_LENGTH];
+arduino = (SerialPort*)malloc(sizeof(SerialPort));
+Crear_Conexion(arduino, portName);
+
+presentacion();
+
+
+printf("\t 1. Barcelona\t 2. Valencia\t 3. Sevilla\t 4. Galicia");
+printf("\n\nIntroduzca su destinto: ");
+scanf_s("%d", &opc1);
+
+switch (opc1)//Opciones destino
+{
+case 1:
+preciob = 34;
+preciof = preciob;
+printf("\nBarcelona. El precio inicial es de %.2f euros.\n", preciob);
+break;
+
+case 2:
+preciov = 24;
+preciof = preciov;
+printf("\nValencia. El precio inicial es de %.2f euros.\n", preciov);
+break;
+
+case 3:
+precios = 28;
+preciof = precios;
+printf("\nSevilla. El precio inicial es de %.2f euros.\n", precios);
+break;
+
+case 4:
+preciog = 19;
+preciof = preciog;
+printf("\nGalicia. El precio inicial es de %.2f euros.\n", preciog);
+break;
+
+default:
+printf("opcion incorrecta\n");
+}
+
+
+printf("\nFecha (dd/mm): ");//Fecha
+scanf_s("%d%d%d%d", &d1, &d2, &m1, &m2);
+printf("La fecha escogida es: %d%d/%d%d \n", d1, d2, m1, m2);
+
+
+printf("\nIntroduzca el numero de pasajeros: ");//Pasajeros
+scanf_s("%d", &pas);
+preciof *= pas;
+
+
+printf("\nTiene algun descuento?");//Descuento
+printf("\t 1. Nada\t 2. Tarjeta dorada\t 3. Familia numerosa");
+printf("\n\nIntroduzca su descuento: ");
+scanf_s("%d", &opc2);
+
+switch (opc2)
+{
+case 1:
+printf("\nSu descuento es del '0 por ciento'\n");
+preciof = preciof;
+break;
+
+case 2:
+printf("\nSu descuento es del '8 por ciento'\n");
+preciof = preciof * 0.92;
+break;
+
+case 3:
+printf("\nSu descuento es del '10 por ciento'\n");
+preciof = preciof * 0.9;
+break;
+
+default:
+printf("opcion incorrecta");
+}
+
+//Hora
+for (i1 = 0; i1 < 1; i1++)
+{
+do
+{
+numero1 = HoraAleatoria1(0, 2);
+repetido1 = 0;
+for (j1 = 0; j1 < i1; j1++)
+{
+if (numeros1[j1] == numero1)
+{
+repetido1 = 1;
+break;
+}
+}
+} while (repetido1);
+numeros1[i1] = numero1;
+}
+
+for (i2 = 0; i2 < 1; i2++)
+{
+do
+{
+numero2 = HoraAleatoria2(0, 3);
+repetido2 = 0;
+for (j2 = 0; j2 < i2; j2++)
+{
+if (numeros2[j2] == numero2)
+{
+repetido2 = 1;
+break;
+}
+}
+} while (repetido2);
+numeros2[i2] = numero2;
+}
+
+for (i3 = 0; i3 < 1; i3++)
+{
+do
+{
+numero3 = HoraAleatoria3(0, 5);
+repetido3 = 0;
+for (j3 = 0; j3 < i3; j3++)
+{
+if (numeros3[j3] == numero3)
+{
+repetido3 = 1;
+break;
+}
+}
+} while (repetido3);
+numeros3[i3] = numero3;
+}
+
+for (i4 = 0; i4 < 1; i4++)
+{
+do
+{
+numero4 = HoraAleatoria2(0, 9);
+repetido4 = 0;
+for (j4 = 0; j4 < i4; j4++)
+{
+if (numeros4[j4] == numero4)
+{
+repetido4 = 1;
+break;
+}
+}
+} while (repetido4);
+numeros4[i4] = numero4;
+}
+
+printf("\nLa hora disponible para dicho dia es: ");
+
+for (i1 = 0; i1 < 1; i1++)
+{
+printf("%d ", numeros1[i1]);
+}
+
+for (i2 = 0; i2 < 1; i2++)
+{
+printf("%d ", numeros2[i2]);
+}
+
+for (i3 = 0; i3 < 1; i3++)
+{
+printf("%d ", numeros3[i3]);
+}
+
+for (i4 = 0; i4 < 1; i4++)
+{
+printf("%d ", numeros4[i4]);
+}
+
+printf("\n\n");
+
+
+datospersonales(&d, pas);
+
+calcular(preciof);
+imprime(preciof);
+
+//Tarjeta de credito
+TarjetaCredito();
+
+//Fichero
+FILE* pf;
+errno_t err;
+int a = 0;
+
+err = fopen_s(&pf, "resumendatos.txt", "a+");
+
+if (err == 0)
+{
+printf("El archivo está abierto");
+ard = autoConnect(arduino, incomingData);
+}
+else
+printf("El archivo no está abierto");
+
+fprintf_s(pf, "\nFecha: %d%d/%d%d", d1, d2, m1, m2);//Fecha
+
+fprintf_s(pf, "\nHora: ");//Hora
+for (i1 = 0; i1 < 1; i1++)
+{
+fprintf_s(pf, "%d ", numeros1[i1]);
+}
+
+for (i2 = 0; i2 < 1; i2++)
+{
+fprintf_s(pf, "%d ", numeros2[i2]);
+}
+
+for (i3 = 0; i3 < 1; i3++)
+{
+fprintf_s(pf, "%d ", numeros3[i3]);
+}
+
+for (i4 = 0; i4 < 1; i4++)
+{
+fprintf_s(pf, "%d ", numeros4[i4]);
+}
+
+fprintf_s(pf, "\nOrigen: Madrid");//Origen
+
+if (opc1 == 1)//Destino
+fprintf_s(pf, "\nDestino: %s", destinoB);
+else if (opc1 == 2)
+fprintf_s(pf, "\nDestino: %s", destinoV);
+else if (opc1 == 3)
+fprintf_s(pf, "\nDestino: %s", destinoS);
+else if (opc1 == 4)
+fprintf_s(pf, "\nDestino: %s", destinoG);
+
+fprintf_s(pf, "\nViajeros: %d", pas);//Numero pasajeros
+
+
+if (fclose(pf) == NULL)
+printf("\nArchivo cerrado correctamente.");
+else
+printf("\nError en el cierre del archivo");
+
+system("PAUSE");
+}
+
+void presentacion(void)
+{
+printf("Ana Arroyo Benitez. \nTrabajo final informatica. \n\n");
+printf("VENTA BILLETES DE TREN MADRID\n");
+}
+
+int HoraAleatoria1(int min, int max)
+{
+int n = min + rand() % (max - min + 1);
+return n;
+}
+
+int HoraAleatoria2(int min, int max)
+{
+int n = min + rand() % (max - min + 1);
+return n;
+}
+
+int HoraAleatoria3(int min, int max)
+{
+int n = min + rand() % (max - min + 1);
+return n;
+}
+
+int HoraAleatoria4(int min, int max)
+{
+int n = min + rand() % (max - min + 1);
+return n;
+}
+
+void datospersonales(struct DATOS* d, int pas)
+{
+int n = 0, k, l;
+
+do
+{
+printf("\n\nIntroduzca datos personales pasajero %d:\n", n + 1);
+
+gets_s(d->a);
+
+printf("Introduzca su nombre: ");//Nombre
+gets_s(d->nombre, 40);
+puts(d->nombre);
+
+printf("\nIntroduzca el primer apellido: ");//Apellido1
+gets_s(d->apellido1, 40);
+puts(d->apellido1);
+
+printf("\nIntroduzca el segundo apellido: ");//Apellido2
+gets_s(d->apellido2, 40);
+puts(d->apellido2);
+
+printf("\n\nIntroduzca su DNI sin la letra: \n");//DNI
+for (k = 0; k < 8; k++)
+{
+printf("Introduzca cada numero: ");
+scanf_s("%d", &d->DNI[k]);
+}
+for (k = 0; k < 8; k++)
+{
+printf("%d", d->DNI[k]);
+}
+
+printf("\n\nIntroduzca su numero de telefono: \n");//Tlf
+for (l = 0; l < 9; l++)
+{
+printf("Introduzca cada numero: ");
+scanf_s("%d", &d->tlf[l]);
+}
+for (l = 0; l < 9; l++)
+{
+printf("%d", d->tlf[l]);
+}
+
+int opc3;
+
+printf("\n\t 1. Indiferente\t 2. Ventana\t 3. Pasillo");//Asiento
+printf("\n\nIntroduzca su asiento: ");
+scanf_s("%d", &opc3);
+
+switch (opc3)
+{
+case 1:
+printf("\nSu asiento sera 'indiferente'");
+break;
+
+case 2:
+printf("\nSu asiento sera 'ventana'");
+break;
+
+case 3:
+printf("\nSu asiento sera 'pasillo'");
+break;
+
+default:
+printf("Opcion incorrecta");
+}
+
+n++;
+
+} while (n <= pas - 1);
+}
+
+float calcular(float preciof)
+{
+return preciof;
+}
+
+void imprime(float preciof)
+{
+printf("\n\nEl precio final sera de %.2f euros.\n\n", calcular(preciof));
+}
+
+void TarjetaCredito()
+{
+int* pe;
+int tam;
+int f;
+
+printf("Cuantos elementos tiene su tarjeta de credito:");
+scanf_s("%i", &tam);
+
+pe = (int*)malloc(tam * sizeof(int));
+
+for (f = 0; f < tam; f++)
+{
+printf("Ingrese elemento:");
+scanf_s("%d", &pe[f]);
+}
+printf("Su tarjeta de credito es:");
+for (f = 0; f < tam; f++)
+{
+printf("%d ", pe[f]);
+}
+
+free(pe);
+}
+
+int autoConnect(SerialPort* arduino, char* incomingData)
+{
+char sendData = 0;
+
+while (!isConnected(arduino))
+{
+Sleep(100);
+Crear_Conexion(arduino, arduino->portName);
+}
+
+while (isConnected(arduino))
+{
+readSerialPort(arduino, incomingData, MAX_DATA_LENGTH);
+if (*incomingData == '2')
+return 1;
+Sleep(10);
+}
+}
+
+/*
+const int ledAzul = 13;
+
+void setup() {
+Serial.begin(9600);
+pinMode(ledAzul, OUTPUT);
+
+}
+
+void loop() {
+digitalWrite(ledAzul, HIGH);
+delay(750);
+digitalWrite(ledAzul, LOW);
+delay(750);
+*/
